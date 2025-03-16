@@ -1,0 +1,12 @@
+2025-03-16 22:44:05,378 - INFO - Starting DesktopMate Controller
+2025-03-16 22:44:05,378 - INFO - Launching Steam app ID: 3301060
+2025-03-16 22:44:05,385 - INFO - Waiting for DesktopMate to launch...
+2025-03-16 22:44:08,072 - INFO - DesktopMate process found (PID: 14364)
+2025-03-16 22:44:11,073 - INFO - Searching for DesktopMate window...
+2025-03-16 22:44:11,074 - INFO - Found window - PID: 14364, Class: UnityWndClass, Title: 'DesktopMate'
+2025-03-16 22:44:11,076 - INFO - Selected window: 1180256
+2025-03-16 22:44:11,736 - INFO - Set parent to desktop: 132636
+2025-03-16 22:44:11,737 - INFO - Successfully modified window properties
+2025-03-16 22:44:11,759 - INFO - Process monitoring started
+2025-03-16 22:44:11,791 - INFO - Creating system tray icon
+2025-03-16 22:44:12,175 - INFO - Running system tray icon
