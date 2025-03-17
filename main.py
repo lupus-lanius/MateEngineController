@@ -7,6 +7,9 @@ import logging
 import threading
 from PIL import Image, ImageDraw
 import pystray
+import tkinter as tk
+from tkinter import scrolledtext
+from tkinter import font as tkfont
 
 # Win32 imports
 import win32gui
@@ -25,6 +28,108 @@ logging.basicConfig(
 )
 logger = logging.getLogger("DesktopMateController")
 
+class LogViewer:
+    def __init__(self, log_file):
+        self.log_file = log_file
+        self.window = None
+        self.text_area = None
+        self.auto_refresh = True
+        self.refresh_rate = 1000  # ms
+    
+    def show(self):
+        # If window already exists, just focus it
+        if self.window and self.window.winfo_exists():
+            self.window.focus_force()
+            return
+            
+        # Create new window
+        self.window = tk.Tk()
+        self.window.title("DesktopMate Controller - Logs")
+        self.window.geometry("800x500")
+        
+        # Configure font
+        log_font = tkfont.Font(family="Consolas", size=10)
+        
+        # Create menu bar with options
+        menu_bar = tk.Menu(self.window)
+        options_menu = tk.Menu(menu_bar, tearoff=0)
+        
+        # Add auto-refresh toggle
+        self.refresh_var = tk.BooleanVar(value=self.auto_refresh)
+        options_menu.add_checkbutton(label="Auto-refresh", variable=self.refresh_var, 
+                                    command=self.toggle_auto_refresh)
+        
+        # Add refresh now option
+        options_menu.add_command(label="Refresh now", command=self.refresh_logs)
+        
+        # Add clear logs option
+        options_menu.add_command(label="Clear display", command=self.clear_display)
+        
+        menu_bar.add_cascade(label="Options", menu=options_menu)
+        self.window.config(menu=menu_bar)
+        
+        # Create scrolled text widget
+        self.text_area = scrolledtext.ScrolledText(self.window, font=log_font, wrap=tk.WORD)
+        self.text_area.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
+        
+        # Initial load of logs
+        self.refresh_logs()
+        
+        # Set up auto-refresh
+        if self.auto_refresh:
+            self.schedule_refresh()
+        
+        # When window is closed, just hide it instead of destroying
+        self.window.protocol("WM_DELETE_WINDOW", self.hide)
+    
+    def hide(self):
+        if self.window:
+            self.window.withdraw()
+    
+    def toggle_auto_refresh(self):
+        self.auto_refresh = self.refresh_var.get()
+        if self.auto_refresh:
+            self.schedule_refresh()
+    
+    def schedule_refresh(self):
+        if self.auto_refresh and self.window and self.window.winfo_exists():
+            self.refresh_logs()
+            self.window.after(self.refresh_rate, self.schedule_refresh)
+    
+    def refresh_logs(self):
+        if not self.window or not self.window.winfo_exists():
+            return
+            
+        if not self.text_area:
+            return
+            
+        try:
+            # Get content from the log file
+            with open(self.log_file, 'r') as file:
+                content = file.read()
+            
+            # Save current position
+            current_pos = self.text_area.yview()
+            
+            # Update text area
+            self.text_area.delete(1.0, tk.END)
+            self.text_area.insert(tk.END, content)
+            
+            # Auto-scroll to end if we were already near the end
+            if current_pos[1] > 0.9:
+                self.text_area.see(tk.END)
+            else:
+                # Otherwise maintain the previous view position
+                self.text_area.yview_moveto(current_pos[0])
+                
+        except Exception as e:
+            self.text_area.delete(1.0, tk.END)
+            self.text_area.insert(tk.END, f"Error loading log file: {e}")
+    
+    def clear_display(self):
+        if self.text_area:
+            self.text_area.delete(1.0, tk.END)
+
 class DesktopMateController:
     def __init__(self):
         self.steam_app_id = "3301060"  # Steam AppID for DesktopMate
@@ -32,6 +137,7 @@ class DesktopMateController:
         self.hwnd = None
         self.is_running = True
         self.icon = None
+        self.log_viewer = None
         
         # Try to locate the icon file
         script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -80,7 +186,9 @@ class DesktopMateController:
                 try:
                     if proc.info['name'].lower() == self.process_name.lower():
                         logger.info(f"DesktopMate process found (PID: {proc.info['pid']})")
-                        time.sleep(3)  # Give the window time to initialize
+                        # Increase wait time from 3 to 10 seconds to ensure the app is fully initialized
+                        logger.info("Waiting 10 seconds for application to fully initialize...")
+                        time.sleep(10)  # Give the window more time to initialize
                         return True
                 except (psutil.NoSuchProcess, psutil.AccessDenied):
                     pass
@@ -99,6 +207,9 @@ class DesktopMateController:
         
         while not success and retry_count < max_retries:
             if self.find_window():
+                # Add a short additional wait after finding the window
+                logger.info("Window found, waiting a moment before modifying...")
+                time.sleep(1)
                 success = self.modify_window()
             
             if not success:
@@ -256,9 +367,13 @@ class DesktopMateController:
             
         def restart_app(icon):
             self.restart_application()
+            
+        def view_logs(icon):
+            self.show_logs()
         
-        # Create menu
+        # Create menu with View Logs option
         menu = pystray.Menu(
+            pystray.MenuItem('View Logs', view_logs),
             pystray.MenuItem('Restart DesktopMate', restart_app),
             pystray.MenuItem('Exit DesktopMate', exit_app)
         )
@@ -273,6 +388,17 @@ class DesktopMateController:
         
         logger.info("Running system tray icon")
         self.icon.run()
+    
+    def show_logs(self):
+        """Show the log viewer window"""
+        log_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "desktop_mate.log")
+        
+        # Create log viewer if it doesn't exist
+        if not self.log_viewer:
+            self.log_viewer = LogViewer(log_file)
+        
+        # Show the log viewer
+        self.log_viewer.show()
     
     def exit_application(self):
         """Exit both the controller and DesktopMate"""

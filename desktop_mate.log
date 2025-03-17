@@ -10,3 +10,128 @@
 2025-03-16 22:44:11,759 - INFO - Process monitoring started
 2025-03-16 22:44:11,791 - INFO - Creating system tray icon
 2025-03-16 22:44:12,175 - INFO - Running system tray icon
+2025-03-17 02:22:29,721 - INFO - Starting DesktopMate Controller
+2025-03-17 02:22:29,722 - INFO - Launching Steam app ID: 3301060
+2025-03-17 02:22:29,728 - INFO - Waiting for DesktopMate to launch...
+2025-03-17 02:22:30,163 - INFO - DesktopMate process found (PID: 14364)
+2025-03-17 02:22:33,164 - INFO - Searching for DesktopMate window...
+2025-03-17 02:22:33,166 - INFO - Found window - PID: 14364, Class: UnityWndClass, Title: 'DesktopMate'
+2025-03-17 02:22:33,167 - INFO - Selected window: 1180256
+2025-03-17 02:22:33,548 - INFO - Set parent to desktop: 132636
+2025-03-17 02:22:33,548 - INFO - Successfully modified window properties
+2025-03-17 02:22:33,569 - INFO - Process monitoring started
+2025-03-17 02:22:33,599 - INFO - Creating system tray icon
+2025-03-17 02:22:34,031 - INFO - Running system tray icon
+2025-03-17 02:22:53,754 - INFO - DesktopMate process ended, exiting controller
+2025-03-17 02:22:58,626 - INFO - Starting DesktopMate Controller
+2025-03-17 02:22:58,626 - INFO - Launching Steam app ID: 3301060
+2025-03-17 02:22:58,632 - INFO - Waiting for DesktopMate to launch...
+2025-03-17 02:23:00,133 - INFO - DesktopMate process found (PID: 20560)
+2025-03-17 02:23:03,134 - INFO - Searching for DesktopMate window...
+2025-03-17 02:23:03,136 - WARNING - No windows found for DesktopMate
+2025-03-17 02:23:03,136 - INFO - Retry attempt 1...
+2025-03-17 02:23:05,137 - INFO - Found window - PID: 20560, Class: UnityWndClass, Title: 'DesktopMate'
+2025-03-17 02:23:05,138 - INFO - Selected window: 7540310
+2025-03-17 02:23:13,784 - INFO - Set parent to desktop: 132636
+2025-03-17 02:23:13,784 - INFO - Successfully modified window properties
+2025-03-17 02:23:13,796 - INFO - Process monitoring started
+2025-03-17 02:23:13,826 - INFO - Creating system tray icon
+2025-03-17 02:23:14,305 - INFO - Running system tray icon
+2025-03-17 02:24:22,708 - INFO - Exiting DesktopMate and controller
+2025-03-17 02:24:26,207 - ERROR - An error occurred when calling message handler
+Traceback (most recent call last):
+  File "C:\Users\samue\Anaconda3\Lib\site-packages\pystray\_win32.py", line 412, in _dispatcher
+    return int(icon._message_handlers.get(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samue\Anaconda3\Lib\site-packages\pystray\_win32.py", line 224, in _on_notify
+    descriptors[index - 1](self)
+  File "C:\Users\samue\Anaconda3\Lib\site-packages\pystray\_base.py", line 328, in inner
+    callback(self)
+  File "C:\Users\samue\Anaconda3\Lib\site-packages\pystray\_base.py", line 453, in __call__
+    return self._action(icon, self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samue\Anaconda3\Lib\site-packages\pystray\_base.py", line 554, in wrapper1
+    return action(icon)
+           ^^^^^^^^^^^^
+  File "C:\Users\samue\Documents\GitHub\DesktopMateController\main.py", line 361, in exit_app
+    self.exit_application()
+  File "C:\Users\samue\Documents\GitHub\DesktopMateController\main.py", line 425, in exit_application
+    sys.exit(0)
+SystemExit: 0
+2025-03-17 02:25:16,035 - INFO - Starting DesktopMate Controller
+2025-03-17 02:25:16,036 - INFO - Launching Steam app ID: 3301060
+2025-03-17 02:25:16,042 - INFO - Waiting for DesktopMate to launch...
+2025-03-17 02:25:17,337 - INFO - DesktopMate process found (PID: 6896)
+2025-03-17 02:25:17,337 - INFO - Waiting 10 seconds for application to fully initialize...
+2025-03-17 02:25:27,338 - INFO - Searching for DesktopMate window...
+2025-03-17 02:25:27,338 - INFO - Found window - PID: 6896, Class: UnityWndClass, Title: 'DesktopMate'
+2025-03-17 02:25:27,341 - INFO - Selected window: 1843510
+2025-03-17 02:25:27,341 - INFO - Window found, waiting a moment before modifying...
+2025-03-17 02:25:28,698 - INFO - Set parent to desktop: 132636
+2025-03-17 02:25:28,698 - INFO - Successfully modified window properties
+2025-03-17 02:25:28,714 - INFO - Process monitoring started
+2025-03-17 02:25:28,747 - INFO - Creating system tray icon
+2025-03-17 02:25:29,096 - INFO - Running system tray icon
+2025-03-17 02:28:54,057 - INFO - Exiting DesktopMate and controller
+2025-03-17 02:28:57,540 - ERROR - An error occurred when calling message handler
+Traceback (most recent call last):
+  File "C:\Users\samue\Anaconda3\Lib\site-packages\pystray\_win32.py", line 412, in _dispatcher
+    return int(icon._message_handlers.get(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samue\Anaconda3\Lib\site-packages\pystray\_win32.py", line 224, in _on_notify
+    descriptors[index - 1](self)
+  File "C:\Users\samue\Anaconda3\Lib\site-packages\pystray\_base.py", line 328, in inner
+    callback(self)
+  File "C:\Users\samue\Anaconda3\Lib\site-packages\pystray\_base.py", line 453, in __call__
+    return self._action(icon, self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samue\Anaconda3\Lib\site-packages\pystray\_base.py", line 554, in wrapper1
+    return action(icon)
+           ^^^^^^^^^^^^
+  File "C:\Users\samue\Documents\GitHub\DesktopMateController\main.py", line 366, in exit_app
+    self.exit_application()
+  File "C:\Users\samue\Documents\GitHub\DesktopMateController\main.py", line 430, in exit_application
+    sys.exit(0)
+SystemExit: 0
+2025-03-17 02:29:00,180 - INFO - Exiting DesktopMate and controller
+2025-03-17 02:29:03,737 - ERROR - An error occurred when calling message handler
+Traceback (most recent call last):
+  File "C:\Users\samue\Anaconda3\Lib\site-packages\pystray\_win32.py", line 412, in _dispatcher
+    return int(icon._message_handlers.get(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samue\Anaconda3\Lib\site-packages\pystray\_win32.py", line 224, in _on_notify
+    descriptors[index - 1](self)
+  File "C:\Users\samue\Anaconda3\Lib\site-packages\pystray\_base.py", line 328, in inner
+    callback(self)
+  File "C:\Users\samue\Anaconda3\Lib\site-packages\pystray\_base.py", line 453, in __call__
+    return self._action(icon, self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samue\Anaconda3\Lib\site-packages\pystray\_base.py", line 554, in wrapper1
+    return action(icon)
+           ^^^^^^^^^^^^
+  File "C:\Users\samue\Documents\GitHub\DesktopMateController\main.py", line 366, in exit_app
+    self.exit_application()
+  File "C:\Users\samue\Documents\GitHub\DesktopMateController\main.py", line 430, in exit_application
+    sys.exit(0)
+SystemExit: 0
+2025-03-17 02:29:39,527 - INFO - Exiting DesktopMate and controller
+2025-03-17 02:29:42,938 - ERROR - An error occurred when calling message handler
+Traceback (most recent call last):
+  File "C:\Users\samue\Anaconda3\Lib\site-packages\pystray\_win32.py", line 412, in _dispatcher
+    return int(icon._message_handlers.get(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samue\Anaconda3\Lib\site-packages\pystray\_win32.py", line 224, in _on_notify
+    descriptors[index - 1](self)
+  File "C:\Users\samue\Anaconda3\Lib\site-packages\pystray\_base.py", line 328, in inner
+    callback(self)
+  File "C:\Users\samue\Anaconda3\Lib\site-packages\pystray\_base.py", line 453, in __call__
+    return self._action(icon, self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samue\Anaconda3\Lib\site-packages\pystray\_base.py", line 554, in wrapper1
+    return action(icon)
+           ^^^^^^^^^^^^
+  File "C:\Users\samue\Documents\GitHub\DesktopMateController\main.py", line 366, in exit_app
+    self.exit_application()
+  File "C:\Users\samue\Documents\GitHub\DesktopMateController\main.py", line 430, in exit_application
+    sys.exit(0)
+SystemExit: 0
