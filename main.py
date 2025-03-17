@@ -263,41 +263,64 @@ class DesktopMateController:
             return False
         
         try:
-            # Make sure window is not minimized
+            # Make sure window is not minimized and is fully visible first
             if win32gui.IsIconic(self.hwnd):
                 win32gui.ShowWindow(self.hwnd, win32con.SW_RESTORE)
-                time.sleep(0.3)
+                time.sleep(0.5)
             
-            # Make window visible
+            # Get window position and size before modifications
+            # so we can restore it if needed
+            try:
+                rect = win32gui.GetWindowRect(self.hwnd)
+                x, y, width, height = rect[0], rect[1], rect[2] - rect[0], rect[3] - rect[1]
+            except:
+                x, y, width, height = 100, 100, 800, 600  # Default if can't get position
+            
+            logger.info(f"Original window position: {x}, {y}, {width}x{height}")
+            
+            # Make window visible first with no style changes
             win32gui.ShowWindow(self.hwnd, win32con.SW_SHOW)
-            time.sleep(0.1)
+            time.sleep(0.3)
             
             # Get current style
             style = win32gui.GetWindowLong(self.hwnd, win32con.GWL_EXSTYLE)
             
-            # Remove app window style and add tool window style to hide from taskbar
-            new_style = (style & ~win32con.WS_EX_APPWINDOW) | win32con.WS_EX_TOOLWINDOW
-            
-            # Add no-activate style to prevent stealing focus
-            new_style |= win32con.WS_EX_NOACTIVATE
+            # Only add TOOLWINDOW style - don't remove APPWINDOW to avoid disappearing
+            # This should be enough to hide from taskbar in most cases
+            new_style = style | win32con.WS_EX_TOOLWINDOW
             
             # Set the new style
             win32gui.SetWindowLong(self.hwnd, win32con.GWL_EXSTYLE, new_style)
-            time.sleep(0.2)
+            time.sleep(0.3)
             
-            # Try to set as child of desktop
-            self.set_parent_to_desktop()
+            # Make sure window is still visible after style change
+            win32gui.ShowWindow(self.hwnd, win32con.SW_SHOW)
+            time.sleep(0.3)
             
-            # Make sure window is still visible but not activated
-            win32gui.ShowWindow(self.hwnd, win32con.SW_SHOWNOACTIVATE)
+            # Bring the window to top without activating it
+            win32gui.SetWindowPos(
+                self.hwnd, 
+                win32con.HWND_TOPMOST, 
+                x, y, width, height,  # Keep original position
+                win32con.SWP_SHOWWINDOW | win32con.SWP_NOACTIVATE
+            )
+            time.sleep(0.3)
             
+            # CRITICAL: Skip setting parent to desktop as this often causes visibility issues
+            # self.set_parent_to_desktop()
+            
+            # Do one final check to verify window is still visible
+            if not win32gui.IsWindowVisible(self.hwnd):
+                logger.warning("Window became invisible after modifications, restoring visibility")
+                win32gui.ShowWindow(self.hwnd, win32con.SW_SHOW)
+                
             logger.info("Successfully modified window properties")
             return True
             
         except Exception as e:
             logger.error(f"Error modifying window: {e}")
             return False
-    
+
     def set_parent_to_desktop(self):
         """Set the desktop as the parent window"""
         try:
@@ -373,9 +396,11 @@ class DesktopMateController:
         
         # Create menu with View Logs option
         menu = pystray.Menu(
-            pystray.MenuItem('View Logs', view_logs),
-            pystray.MenuItem('Restart DesktopMate', restart_app),
-            pystray.MenuItem('Exit DesktopMate', exit_app)
+            lambda: (
+                pystray.MenuItem('View Logs', lambda: self.show_logs()),
+                pystray.MenuItem('Restart DesktopMate', lambda: self.restart_application()),
+                pystray.MenuItem('Exit DesktopMate', lambda: self.exit_application())
+            )
         )
         
         # Create icon
