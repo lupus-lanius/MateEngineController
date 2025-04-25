@@ -132,8 +132,8 @@ class LogViewer:
 
 class DesktopMateController:
     def __init__(self):
-        self.steam_app_id = "3301060"  # Steam AppID for DesktopMate
-        self.process_name = "DesktopMate.exe"
+        self.steam_app_id = "3625270"  # Steam AppID for Mate Engine
+        self.process_name = "MateEngineX.exe"
         self.hwnd = None
         self.is_running = True
         self.icon = None
