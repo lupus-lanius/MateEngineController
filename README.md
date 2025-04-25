@@ -1,20 +1,20 @@
-# Desktop Mate Controller
+#  Mate Engine Controller
 
-A Python application that launches DesktopMate through Steam and manages its window visibility, keeping it visible on your desktop while hiding it from the taskbar.
+A Python application that launches Mate Engine through Steam and manages its window visibility, keeping it visible on your desktop while hiding it from the taskbar.
 
 ## Features
 
-- Launches DesktopMate through Steam automatically
+- Launches Mate Engine through Steam automatically
 - Makes the character visible on desktop but hidden from taskbar
 - Provides system tray icon for easy control
-- Monitors the application and exits when DesktopMate closes
+- Monitors the application and exits when Mate Engine closes
 - Includes restart functionality
 - Detailed logging for troubleshooting
 
 ## Requirements
 
 - Windows operating system
-- Steam installed with DesktopMate in your library
+- Steam installed with Mate Engine in your library
 - Python 3.8 or higher
 - Required Python packages:
   - psutil
